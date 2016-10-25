@@ -24,13 +24,11 @@ loan_state=loan %>%
   summarise(fraction_bad = mean(status))
 ggplot(data=loan_state,aes(x=addr_state,y=fraction_bad))+geom_bar(stat="identity",aes(fill=addr_state))+ ggtitle("Fraction of bad loans per state") 
 
-
 #fraction of bad loans per delinq
 loan_delinq=loan %>%
   group_by(delinq) %>%
   summarise(fraction_bad = mean(status))
 ggplot(data=loan_delinq,aes(x=delinq,y=fraction_bad))+geom_bar(stat="identity",aes(fill=delinq))+ ggtitle("Fraction of bad loans per delinquency") 
-
 
 #fraction of bad loans per term
 loan_term=loan %>%
@@ -101,8 +99,8 @@ boxplot(total_rec_prncp~status,data=loan,names=c("good","bad"),main="Boxplot of 
 loan$frac_funded=loan$funded_amnt/loan$loan_amnt
 boxplot(log(frac_funded~status,data=loan,names=c("good","bad"),main="Boxplot of funded amount/requested amount")
 
-##################       
-#logistic regression
+######
+#weighted logistic regression
 loan$status=as.factor(loan$status)
 loan$state=as.factor(loan$addr_state %in% c("AK","DC","UT"))
 loan$delinq=as.factor(!(is.na(loan$mths_since_last_delinq)) & loan$mths_since_last_delinq<60)
@@ -144,7 +142,7 @@ ROCperf = performance(ROCpred, "tpr", "fpr")
 plot(ROCperf,colorize = TRUE)
 as.numeric(performance(ROCpred,"auc")@y.values)
 
-##############
+######
 #random forest
 
 #1. unbalanced
