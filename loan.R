@@ -1,4 +1,4 @@
-loan <- read.csv("C:/Users/mitadm/Desktop/Wealthfront/loan.csv")
+loan <- read.csv("~/loan.csv")
 
 loan$loan_amnt=as.numeric(loan$loan_amnt)
 loan$funded_amnt=as.numeric(loan$funded_amnt)
